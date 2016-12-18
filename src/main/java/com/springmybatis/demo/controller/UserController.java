@@ -17,20 +17,30 @@ public class UserController {
 
   @Autowired
   private IUserService userService;
-  
+
   @RequestMapping(method = RequestMethod.POST)
-  public ResponseEntity<User> create(
-      @RequestParam String id,
-      @RequestParam String name,
-      @RequestParam String password,
-      @RequestParam(required = false, defaultValue = "0") int age) {
+  public ResponseEntity<User> create(@RequestParam String id, @RequestParam String name,
+      @RequestParam String password, @RequestParam(required = false, defaultValue = "0") int age) {
     User user = userService.addUser(id, name, password, age);
     return new ResponseEntity<>(user, HttpStatus.OK);
   }
-  
-  @RequestMapping(method = RequestMethod.GET)
-  public ResponseEntity<User> get(@RequestParam String id) {
-    User user = userService.getUserById(id);
-    return new ResponseEntity<>(user, HttpStatus.OK);
+
+  @RequestMapping(method = RequestMethod.PUT)
+  public ResponseEntity<User> update(@RequestParam String id, @RequestParam String name,
+      @RequestParam String password, @RequestParam(required = false, defaultValue = "0") int age) {
+    if (userService.updateUser(id, name, password, age)) {
+      return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
+  @RequestMapping(method = RequestMethod.DELETE)
+  public ResponseEntity<User> delete(@RequestParam String id) {
+    if (userService.deleteUserById(id)) {
+      return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }

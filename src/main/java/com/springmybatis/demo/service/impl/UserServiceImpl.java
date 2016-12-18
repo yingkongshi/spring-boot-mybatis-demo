@@ -11,12 +11,8 @@ import com.springmybatis.demo.service.IUserService;
 public class UserServiceImpl implements IUserService {
 
   @Autowired
-  private IUserDao userDao;//注入dao
+  private IUserDao userDao;// 注入dao
 
-  public User getUserById(String userId) {
-    return userDao.selectByPrimaryKey(userId);
-  }
-  
   @Override
   public User addUser(String id, String name, String password, int age) {
     User user = new User(id, name, password, age);
@@ -26,19 +22,20 @@ public class UserServiceImpl implements IUserService {
     return null;
   }
 
-//  @Override
-//  public User getUserById(String userId) {
-//    return userDao.selectByPrimaryKey(userId);
-//  }
+  @Override
+  public User getUserById(String userId) {
+    return userDao.selectByPrimaryKey(userId);
+  }
 
-//  @Override
-//  public boolean deleteUserById(String userId) {
-//    return userDao.deleteByPrimaryKey(userId) > 0;
-//  }
-//
-//  @Override
-//  public boolean updateUser(User user) {
-//    return userDao.updateByPrimaryKey(user) > 0;
-//  }
+  @Override
+  public boolean deleteUserById(String userId) {
+    return userDao.deleteByPrimaryKey(userId) > 0;
+  }
+
+  @Override
+  public boolean updateUser(String id, String name, String password, int age) {
+    User user = new User(id, name, password, age);
+    return userDao.updateByPrimaryKey(user) > 0;
+  }
 
 }
