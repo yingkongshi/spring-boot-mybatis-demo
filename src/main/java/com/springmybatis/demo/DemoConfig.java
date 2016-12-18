@@ -38,6 +38,9 @@ public class DemoConfig {
   public SqlSessionFactory sqlSessionFactory() throws Exception {
     SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
     sessionFactory.setDataSource(dataSource());
+    org.apache.ibatis.session.Configuration conf = new org.apache.ibatis.session.Configuration();
+    conf.setMapUnderscoreToCamelCase(true);
+    sessionFactory.setConfiguration(conf);
     return sessionFactory.getObject();
   }
 }
